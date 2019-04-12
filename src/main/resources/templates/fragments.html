@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="head">
 
@@ -20,12 +20,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a th:href="@{/search}">Search</a></li>
-                    <li><a th:href="@{/list}">List</a></li>
+                    <li><a th:href="@{/search}" th:text="${actions.search}">Search</a></li>
+                    <li><a th:href="@{/list}" th:text="${actions.list}">List</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
+    <table th:fragment="jobs-table" th:each="job: ${jobs}" class="job-listing">
+        <tr th:each="entry: ${job}" >
+            <td th:text="${#strings.capitalizeWords(entry.key)}">Key</td>
+            <td th:unless='${entry.key=="name"}'><a th:href="@{/list/jobs(column=${entry.key},value=${entry.value})}" th:text="${entry.value}"></a></td>
+            <td th:if='${entry.key=="name"}' th:text="${entry.value}"></td>
+        </tr>
+    </table>
 
 </body>
 </html>
